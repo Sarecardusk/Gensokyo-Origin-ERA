@@ -46,8 +46,9 @@ if (marisaAffectionStage) {
 export const charTest_S4_AllIdle = _.cloneDeep(baseTestData);
 _.set(charTest_S4_AllIdle, 'cache.character', {});
 // 通过将 routine 和 specials 设为空数组来确保没有行动会被触发
-charTest_S4_AllIdle.chars.reimu.routine = [];
-charTest_S4_AllIdle.chars.marisa.routine = [];
+// 测试数据在 JSON 推导下会被收窄，这里仅在测试构造阶段放宽类型
+(charTest_S4_AllIdle.chars.reimu as any).routine = [];
+(charTest_S4_AllIdle.chars.marisa as any).routine = [];
 charTest_S4_AllIdle.chars.sanae.specials = [];
 charTest_S4_AllIdle.chars.sanae.routine = [];
 
@@ -68,7 +69,7 @@ export const charTest_S6_CompanionPriority = _.cloneDeep(baseTestData);
 // 推进2小时，确保 newPeriod 为 true
 charTest_S6_CompanionPriority.time.timeProgress = 120;
 // 修改 reimu 的 routine，使其在任何时段变化时都触发
-charTest_S6_CompanionPriority.chars.reimu.routine = [
+(charTest_S6_CompanionPriority.chars.reimu as any).routine = [
   { when: { byFlag: ['newPeriod'] }, action: { to: '博丽神社', do: '打扫神社' } },
 ];
 // 确保 reimu 和 user 在同一地点以满足相伴条件

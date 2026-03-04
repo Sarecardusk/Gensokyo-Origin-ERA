@@ -1,16 +1,18 @@
 import _ from 'lodash';
 import baseTestData from '../stat-test-data.json';
 
+const mutableBaseTestData = baseTestData as any;
+
 // 确保默认基线中的红雾异变被标记为已结束，避免被视作正在进行中的异变。
-if (baseTestData?.incidents?.['红雾异变']) {
-  baseTestData.incidents['红雾异变'] = {
-    ...baseTestData.incidents['红雾异变'],
+if (mutableBaseTestData?.incidents?.['红雾异变']) {
+  mutableBaseTestData.incidents['红雾异变'] = {
+    ...mutableBaseTestData.incidents['红雾异变'],
     异变已结束: true,
   };
 }
 
 const createStat = (overrides: Record<string, unknown>) =>
-  _.mergeWith(_.cloneDeep(baseTestData), overrides, (objValue, srcValue) => {
+  _.mergeWith(_.cloneDeep(baseTestData), overrides, (_objValue, srcValue) => {
     if (Array.isArray(srcValue)) {
       return srcValue;
     }

@@ -4,7 +4,7 @@
 
 import _ from 'lodash';
 import type { Stat } from '../../../GSKO-BASE/schema/stat';
-import '../stat-test-data.json';
+import baseTestData from '../stat-test-data.json';
 
 const FESTIVAL_EPOCH_ISO = '2025-01-01T00:00:00Z';
 
@@ -48,7 +48,7 @@ const festivalSpecificData = {
   ],
 };
 
-const baseFestivalStat = _.merge(_.cloneDeep(baseTestData) as Stat, festivalSpecificData) as Stat;
+const baseFestivalStat = _.merge(_.cloneDeep(baseTestData) as unknown as Stat, festivalSpecificData) as Stat;
 
 const getProgress = (targetMonth: number, targetDay: number): number => {
   const epoch = new Date(baseFestivalStat.config.time.epochISO);
@@ -84,6 +84,6 @@ export const festivalTest_CrossYearUpcoming = createFestivalStat(12, 29);
 
 export const festivalTest_EmptyList = (() => {
   const stat = createFestivalStat(1, 1);
-  stat.festivals_list = [];
+  stat.festivals_list = {} as Stat['festivals_list'];
   return stat;
 })();
