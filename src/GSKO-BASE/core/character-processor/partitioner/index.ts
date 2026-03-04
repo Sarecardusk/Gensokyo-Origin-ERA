@@ -27,7 +27,7 @@ export function partitionCharacters({ stat }: { stat: Stat }): {
         logger.warn(funcName, `无法找到角色 ${charId} 的数据，将视为异区。`);
         return false;
       }
-      const charLocation = getCharLocation(char);
+      const charLocation = getCharLocation(stat, charId);
       logger.debug(funcName, `检查角色 ${charId}: 位置 [${charLocation}]`);
       return charLocation === userLocation;
     });

@@ -95,7 +95,7 @@ function areConditionsMet(entry: Entry, { runtime }: { runtime: Runtime }): { me
 function chooseAction(
   charId: string,
   char: Character,
-  { runtime, stat }: { runtime: Runtime; stat: Stat },
+  { runtime }: { runtime: Runtime },
 ): Action | null {
   const funcName = 'chooseAction';
 
@@ -162,7 +162,7 @@ export function makeActionDecisions({
     if (!char) continue;
 
     logger.debug(funcName, `开始为角色 ${charId} 选择常规行动...`);
-    const action = chooseAction(charId, char, { runtime, stat });
+    const action = chooseAction(charId, char, { runtime });
 
     if (action) {
       const finalAction: Action = { ...action };

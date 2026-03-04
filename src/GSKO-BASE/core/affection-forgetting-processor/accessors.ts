@@ -6,8 +6,8 @@ import type { Runtime } from '../../schema/runtime';
 import { FLAG_PREFIX, TRIGGER_FLAG_PREFIX_KEYS } from './constants';
 import { toFiniteNumber } from '../../utils/format';
 import { ForgettingRule, ForgettingRuleSchema } from '../../schema/character-settings';
-import { CHARACTER_FIELDS, Character, CharsSchema } from '../../schema/character';
-import { USER_FIELDS, UserSchema } from '../../schema/user';
+import { CHARACTER_FIELDS, Character } from '../../schema/character';
+import { USER_FIELDS } from '../../schema/user';
 import { QueryResultItem } from '../../events/constants';
 import { Stat } from '../../schema/stat';
 

@@ -39,12 +39,6 @@ interface CharacterContext {
   rules: ActiveRule[];
 }
 
-interface AnchorInfo {
-  flagKey: string;
-  mk: string;
-  messageId: number;
-}
-
 const logger = new Logger();
 
 const hasSharedLocation = (snapshots: QueryResultItem[], charId: string): boolean => {

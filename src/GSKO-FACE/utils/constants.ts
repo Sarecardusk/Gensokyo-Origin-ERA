@@ -1,4 +1,4 @@
-import type { Stat } from '../../../GSKO-BASE/schema/stat';
+import type { Stat } from '../../GSKO-BASE/schema/stat';
 
 /**
  * @description 不含 `$meta` 字段的纯净变量对象类型。

@@ -10,7 +10,7 @@ import {
 } from '../../schema/clock';
 import { Stat } from '../../schema/stat';
 import { TimeProcessorResult } from '../../schema/time-processor-result';
-import { TIME_PERIOD_KEYS, TIME_PERIOD_NAMES, TIME_SEASON_NAMES, TIME_WEEK_NAMES } from '../../schema/time/constants';
+import { TIME_PERIOD_NAMES, TIME_SEASON_NAMES, TIME_WEEK_NAMES } from '../../schema/time/constants';
 import { Logger } from '../../utils/log';
 import { getTimeConfig, getTimeProgress } from './accessors';
 import { PAD2, periodIndexOf, seasonIndexOf, weekStart, ymID, ymdID } from './utils';
@@ -84,7 +84,6 @@ export function processTime({ stat, prevClockAck }: ProcessTimeParams): TimeProc
     const minutesSinceMidnight = local.getUTCHours() * 60 + local.getUTCMinutes();
     const periodIdx = periodIndexOf(minutesSinceMidnight);
     const periodName = TIME_PERIOD_NAMES[periodIdx];
-    const periodKey = TIME_PERIOD_KEYS[periodIdx];
     const periodID = dayID * 10 + periodIdx;
 
     logger.debug(

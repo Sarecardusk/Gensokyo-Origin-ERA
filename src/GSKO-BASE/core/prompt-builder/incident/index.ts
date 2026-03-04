@@ -12,7 +12,7 @@ const logger = new Logger();
  * @param {Stat} params.stat - 持久化数据。
  * @returns {string} - 返回构建好的提示词字符串。
  */
-export function buildIncidentPrompt({ runtime, stat }: { runtime: Runtime; stat: Stat }): string {
+export function buildIncidentPrompt({ runtime, stat: _stat }: { runtime: Runtime; stat: Stat }): string {
   const funcName = 'buildIncidentPrompt';
   const incidentInfo = runtime.incident;
 
