@@ -1,8 +1,8 @@
 <template>
-  <div class="map-component" id="mapComponent">
+  <div id="mapComponent" class="map-component">
     <div class="map-wrapper">
       <!-- 地图信息显示，暂时隐藏 -->
-      <div class="map-info" ref="mapInfo" v-if="false">
+      <div v-if="false" ref="mapInfo" class="map-info">
         缩放: <span>{{ mapState.zoom.toFixed(1) }}</span>
         x | 坐标:
         <span id="coords"
@@ -12,12 +12,12 @@
       </div>
 
       <div class="map-operate">
-        <div @click="resetToPlayer" title="回到玩家位置">🎯</div>
+        <div title="回到玩家位置" @click="resetToPlayer">🎯</div>
         <div @click="zoomIn">+</div>
         <div @click="zoomOut">-</div>
       </div>
 
-      <div class="map-container" id="mapContainer">
+      <div id="mapContainer" class="map-container">
         <canvas id="mapCanvas"></canvas>
 
         <!-- 动态生成marker -->
@@ -26,7 +26,6 @@
           :key="index"
           class="marker location-marker"
           :class="{ 'marker-highlighted': selectedMarker?.name === marker.name }"
-          v-html="marker.htmlEle ?? marker.name"
           :style="{
             left: marker.pos!.x * mapState.zoom + mapState.offsetX + 'px',
             top: marker.pos!.y * mapState.zoom + mapState.offsetY + 'px',
@@ -36,13 +35,13 @@
           @touchstart="handleMarkerTouchStart(marker, $event)"
           @mouseenter="hoverMarker = marker.name"
           @mouseleave="hoverMarker = null"
+          v-html="marker.htmlEle ?? marker.name"
         ></div>
 
         <div
           v-for="(region, index) in regions"
           :key="index"
           class="marker location-marker region-marker"
-          v-html="region.htmlEle ?? region.name"
           :style="{
             left: region.pos.x * mapState.zoom + mapState.offsetX + 'px',
             top: region.pos.y * mapState.zoom + mapState.offsetY + 'px',
@@ -50,6 +49,7 @@
           }"
           @click="zoomToRegion(region)"
           @touchstart="zoomToRegion(region)"
+          v-html="region.htmlEle ?? region.name"
         ></div>
 
         <!-- 点击marker的tip弹出 -->
@@ -90,12 +90,12 @@
         <div
           v-if="playerMarker"
           class="marker player-marker pulsate"
-          v-html="playerMarker.htmlEle"
           :style="{
             left: playerMarker.pos!.x * mapState.zoom + mapState.offsetX + 'px',
             top: playerMarker.pos!.y * mapState.zoom + mapState.offsetY + 'px',
             transform: `translate(-50%, -100%)`,
           }"
+          v-html="playerMarker.htmlEle"
         ></div>
       </div>
     </div>
@@ -150,7 +150,7 @@ const mapSize = computed(() => {
 
 const allShowLocations: ComputedRef<{ showRegions: FlatLocation[]; showLocation: FlatLocation[] }> = computed(() => {
   if (props.context?.statWithoutMeta?.world?.map_graph?.tree) {
-    let { regions, baseLocation } = getRegions(props.context.statWithoutMeta.world.map_graph.tree);
+    const { regions, baseLocation } = getRegions(props.context.statWithoutMeta.world.map_graph.tree);
 
     // 什么缩放等级显示多少level的区域
     let level = 0;
@@ -165,12 +165,12 @@ const allShowLocations: ComputedRef<{ showRegions: FlatLocation[]; showLocation:
     }
 
     const showRegionMap = new Map<string, boolean>();
-    let levelFilterRegions = regions.filter(item => item.level <= level);
+    const levelFilterRegions = regions.filter(item => item.level <= level);
     levelFilterRegions.forEach(item => {
       showRegionMap.set(item.name, true);
     });
 
-    let showRegions: FlatLocation[] = [];
+    const showRegions: FlatLocation[] = [];
     levelFilterRegions.forEach(item => {
       // 不存在更上级的区域，或者上级区域不显示的，才能最终显示
       if (!item.father || !showRegionMap.get(item.father)) {
@@ -178,7 +178,7 @@ const allShowLocations: ComputedRef<{ showRegions: FlatLocation[]; showLocation:
       }
     });
 
-    let showLocation: FlatLocation[] = [];
+    const showLocation: FlatLocation[] = [];
     baseLocation.forEach(item => {
       // 不存在更上级的区域，或者上级区域不显示的，才能最终显示
       if (!item.father || !showRegionMap.get(item.father)) {
@@ -193,7 +193,7 @@ const allShowLocations: ComputedRef<{ showRegions: FlatLocation[]; showLocation:
 });
 
 const regions: ComputedRef<FlatLocation[]> = computed(() => {
-  if (allShowLocations) {
+  if (allShowLocations.value) {
     return allShowLocations.value.showRegions;
   }
 
@@ -202,7 +202,7 @@ const regions: ComputedRef<FlatLocation[]> = computed(() => {
 
 // 地图上的地点
 const markers: ComputedRef<MapMarker[]> = computed(() => {
-  if (allShowLocations) {
+  if (allShowLocations.value) {
     return allShowLocations.value.showLocation;
   }
 
@@ -277,7 +277,7 @@ const playerMarker: ComputedRef<MapMarker | null> = computed(() => {
   return null;
 });
 
-let mapState = ref<MapState>({
+const mapState = ref<MapState>({
   offsetX: 0,
   offsetY: 0,
   zoom: 1,
@@ -292,8 +292,8 @@ let mapState = ref<MapState>({
   initialTouches: [],
 });
 
-let selectedMarker = ref<MapMarker | null>(null);
-let hoverMarker = ref<string | null>(null);
+const selectedMarker = ref<MapMarker | null>(null);
+const hoverMarker = ref<string | null>(null);
 const charactersInSelectedLocation = ref<any[]>([]);
 const showRoleDetailPopup = ref(false);
 const selectedCharacterForPopup = ref<any | null>(null);
